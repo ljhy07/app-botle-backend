@@ -10,7 +10,6 @@ class DB:
         self.cursor.execute(cmd, (id, nickname, pwd))
 
         self.db.commit()
-        self.db.close()
     
     def UserSearch(self, id, pwd): # select
         try:
@@ -44,7 +43,6 @@ class DB:
         self.cursor.execute(cmd, (nickname, id))
 
         self.db.commit()
-        self.db.close()
     
     # def UserPwdUpdate(self, id, pwd, new_pwd): # update
     #     cmd = "update user set pwd=%s where id=%s and pwd=%s"
@@ -60,7 +58,6 @@ class DB:
         self.cursor.execute(cmd, (id, nickname, title, contents, private, category, reset, reset, reset, reset))
 
         self.db.commit()
-        self.db.close()
 
     def DiaryCreateP(self, id, nickname, title, contents, private, category, photo):
         reset = 0
@@ -69,7 +66,6 @@ class DB:
         self.cursor.execute(cmd, (id, nickname, title, contents, private, category, photo, reset, reset, reset, reset))
 
         self.db.commit()
-        self.db.close()
     
     def MyDiarySearch(self, id):
         cmd = "select writer, title, contents, Private, category, photo, day, happy, sad, angry, surprised from diary where id=%s"
@@ -101,25 +97,21 @@ class DB:
         self.cursor.execute(cmd, (id, title, contents, private, category, photo))
 
         self.db.commit()
-        self.db.close()
 
     def DiaryUpdate(self, id, title, contents, private, category):
         cmd = "update diary set title=%s, contents=%s, Private=%s, category=%s"
         self.cursor.execute(cmd, (id, title, contents, private, category))
 
         self.db.commit()
-        self.db.close()
     
     def DiaryDelete(self, id, title):
         cmd = "delete from diary where id=%s and title=%s"
         self.cursor.execute(cmd, (id, title))
 
         self.db.commit()
-        self.db.close()
     
     def Sympathy(self, nickname, writer, title, category):
         cmd = 'insert into sympathyList value (%s, %s, %s, %s)'
         self.cursor.execute(cmd, (nickname, writer, title, category))
 
         self.db.commit()
-        self.db.close()

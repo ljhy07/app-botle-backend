@@ -35,6 +35,7 @@ def Login():
 
             resp_nick = make_response()
             resp_nick.set_cookie('Nick', nick)
+            return True
         else:
             indexError = 'id or password wrong'
             return indexError
@@ -119,4 +120,4 @@ def sympathyButton():
         return db.SympathyButton(nickname=nick, writer=writer, title=title, category=category)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
