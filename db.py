@@ -11,19 +11,13 @@ class DB:
 
         self.db.commit()
         self.db.close()
-
-    def UserCreateP(self, id, nickname, pwd, photo):
-        cmd = "insert into user(id, nickname, pwd, photo) values (%s, %s, %s, %s)"
-        self.cursor.execute(cmd, (id, nickname, pwd, photo))
-
-        self.db.commit()
-        self.db.close()
     
     def UserSearch(self, id, pwd): # select
         try:
             cmd = "select id, pwd from user where id=%s"
             self.cursor.execute(cmd, (id))
             data = self.cursor.fetchone()
+            print(data)
             db_id, db_pwd = data[0]
             
             if db_id == id and db_pwd == pwd:
@@ -82,45 +76,25 @@ class DB:
         self.cursor.execute(cmd, (id))
         return self.cursor.fetchmany(10)
     
-    def DiarysSearch(self, sort, category):
-        if category == 'all':
-            if sort == 'recent':
-                cmd = 'select writer, title, contents, category, photo, day, happy, sad, angry, surprised from diary order by day desc'
-                self.cursor.execute(cmd)
-                return self.cursor.fetchmany(25)
-            elif sort == 'popular':
-                cmd = 'select writer, title, contents, category, photo, day, happy, sad, angry, surprised from diary order by (happy+sad+angry+surprised)'
-                self.cursor.execute(cmd)
-                return self.cursor.fetchmany(25)
-        else:
-            if sort == 'recent':
-                cmd = 'select writer, title, contents, category, photo, day, happy, sad, angry, surprised from diary where category=%s order by day desc'
-                self.cursor.execute(cmd, (category))
-                return self.cursor.fetchmany(25)
-            elif sort == 'popular':
-                cmd = 'select writer, title, contents, category, photo, day, happy, sad, angry, surprised from diary where category=%s order by (happy+sad+angry+surprised)'
-                self.cursor.execute(cmd, (category))
-                return self.cursor.fetchmany(25)
-    
     def DiarySearch(self, sort, category):
         if category == 'all':
             if sort == 'recent':
                 cmd = 'select writer, title, contents, category, photo, day, happy, sad, angry, surprised from diary order by day desc'
                 self.cursor.execute(cmd)
-                return self.cursor.fetchone()
+                return self.cursor.fetchmany(25)
             elif sort == 'popular':
                 cmd = 'select writer, title, contents, category, photo, day, happy, sad, angry, surprised from diary order by (happy+sad+angry+surprised)'
                 self.cursor.execute(cmd)
-                return self.cursor.fetchone()
+                return self.cursor.fetchmany(25)
         else:
             if sort == 'recent':
                 cmd = 'select writer, title, contents, category, photo, day, happy, sad, angry, surprised from diary where category=%s order by day desc'
                 self.cursor.execute(cmd, (category))
-                return self.cursor.fetchone()
+                return self.cursor.fetchmany(25)
             elif sort == 'popular':
                 cmd = 'select writer, title, contents, category, photo, day, happy, sad, angry, surprised from diary where category=%s order by (happy+sad+angry+surprised)'
                 self.cursor.execute(cmd, (category))
-                return self.cursor.fetchone()
+                return self.cursor.fetchmany(25)
 
     def DiaryUpdateP(self, id, title, contents, private, category, photo):
         cmd = "update diary set title=%s, contents=%s, Private=%s, category=%s, photo=%s"
@@ -129,7 +103,7 @@ class DB:
         self.db.commit()
         self.db.close()
 
-    def DiaryUpdateP(self, id, title, contents, private, category):
+    def DiaryUpdate(self, id, title, contents, private, category):
         cmd = "update diary set title=%s, contents=%s, Private=%s, category=%s"
         self.cursor.execute(cmd, (id, title, contents, private, category))
 
@@ -143,3 +117,9 @@ class DB:
         self.db.commit()
         self.db.close()
     
+    def Sympathy(self, nickname, writer, title, category):
+        cmd = 'insert into sympathyList value (%s, %s, %s, %s)'
+        self.cursor.execute(cmd, (nickname, writer, title, category))
+
+        self.db.commit()
+        self.db.close()
