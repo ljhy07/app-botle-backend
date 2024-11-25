@@ -2,7 +2,7 @@ import pymysql
 
 class DB:
     def __init__(self):
-        self.db = pymysql.connect(host='127.0.0.1', user='root', password='Ieejhyeon03167#', db='AppJam', charset='utf8')
+        self.db = pymysql.connect(host='127.0.0.1', user='root', password='', db='AppJam', charset='utf8') # 보안상 비밀번호는 제거(.env로 수정 필요)
         self.cursor = self.db.cursor()
     
     def UserCreate(self, id, nickname, pwd):
